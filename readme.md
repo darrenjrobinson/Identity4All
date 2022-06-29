@@ -17,7 +17,13 @@ The FunctionApp Folder contains the Azure Function App that is called by the Ext
 
 The basis is the [AAD External Identities API Connector Python Function example](https://github.com/Azure-Samples/active-directory-python-external-identities-api-connector-azure-function-validate/blob/master/README.md)
 
-It have been modified to use the MSAL Python Package and connect to Azure AD Graph using a certificate retreived from an Azure KeyVault using a system managed identity. 
+It has been modified to retrieve the username and password from an Azure KeyVault using a system managed identity to validate against the basic auth credentials that are configured on the External Identities API Connector.
+
+####
+Update local.settings.json 
+- (authUsername and authPassword) to include the 'name' of the Secrets in KeyVault that contains the username and password for Azure Function invocation validation as configured on External Identities API Connector. 
+- (vaultURL) for the Azure KeyVault that contains the secrets above. e.g https://yourKeyVaultName.vault.azure.net
+- (invites) for the list of inivitees allowed to Self-Service SignUp. In lowercase separated by ; e.g. user1@yourdomain.com;user2@yourdomain.com
 
 ### VerifiedID Verifiable Credentials
 The VerifiedID Folder contains the VerifiedID VC issuance and presentation solution elements demonstrated in our submissions. 
