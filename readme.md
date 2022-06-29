@@ -19,7 +19,7 @@ The basis is the [AAD External Identities API Connector Python Function example]
 
 It has been modified to retrieve the username and password from an Azure KeyVault using a system managed identity to validate against the basic auth credentials that are configured on the External Identities API Connector.
 
-####
+#### Config Updates
 Update local.settings.json 
 - (authUsername and authPassword) to include the 'name' of the Secrets in KeyVault that contains the username and password for Azure Function invocation validation as configured on External Identities API Connector. 
 - (vaultURL) for the Azure KeyVault that contains the secrets above. e.g https://yourKeyVaultName.vault.azure.net
@@ -28,7 +28,31 @@ Update local.settings.json
 ### VerifiedID Verifiable Credentials
 The VerifiedID Folder contains the VerifiedID VC issuance and presentation solution elements demonstrated in our submissions. 
 
-It has been heavily modified to include the facial recognition enrolment during VC issuance and facical recognition comparison to the registered image during VC presentation. 
+It has been heavily modified to include the facial recognition enrolment during VC issuance and facical recognition comparison to the registered image during VC presentation. But it is based on the [Microsoft example found here](https://github.com/Azure-Samples/active-directory-verifiable-credentials-dotnet/tree/main/1-asp-net-core-api-idtokenhint)
+
+#### Config Updates
+Update appsettings.json
+- (TenantId) your AAD Tenant ID
+- (ClientId) your VC App Reg 
+- (ClientSecret) your VC App Secret
+- (IssuerAuthority) your DID Issuer e.g. "did:web:yourissuer.azurewebsites.net"
+- (VerifierAuthority) your DID Verifier e.g "did:web:yourverifier.azurewebsites.net",
+- (CredentialManifest) your DID Manifest e.g. "https://beta.eu.did.msidentity.com/v1.0/GUID/verifiableCredential/contracts/yourContract"
+
+Update IssuerController.cs
+- // SUBSCRIPTION KEY section with your API Key for Cognitive Services Facial Rec. 
+    - client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "YOURAPIKEY");
+- // Add image to get ID
+    - Cognitive Services API Endpoint "https://YOURREGION.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true"
+
+Update VerifierController.cs
+- // SUBSCRIPTION KEY section with your API Key for Cognitive Services Facial Rec. 
+    - client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "YOURAPIKEY");
+- // Add image to get ID
+    - Cognitive Services API Endpoint "https://YOURREGION.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true"
+- // Make the call to Verify API
+    - "https://YOURREGION.api.cognitive.microsoft.com/face/v1.0/verify"
+
 
 ## More Info
 For more information see the [hackathon detailed submission here](https://devpost.com/software/orange-interstellar-corporation-event-webapp)
