@@ -4,6 +4,8 @@ Our team’s submission to the [Microsoft Identity for All Hackathon](https://id
 
 This repo contains the projects from our submission. 
 
+**IMPORTANT NOTE: This is a submission for a hackathon built in two weeks part time by a geographically dispersed team. It is NOT production ready, has not been security reviewed and has the potential to transport you to a parallel galaxy. Consider this our "all care, no responsibility statement".**  
+
 ### Azure WebApp
 The WebApp Folder contains the event website for the Orange Interstellar Event App. 
 Look into the AppCreationScripts.md for how to deploy the [Microsoft Sample](https://docs.microsoft.com/en-us/azure/active-directory/develop/tutorial-v2-javascript-auth-code). We modified the configure.ps1 script to name the AAD Registered App for our purpose. 
