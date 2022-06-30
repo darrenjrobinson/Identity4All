@@ -1,0 +1,94 @@
+﻿@page
+@model AspNetCoreVerifiableCredentials.Pages.IssuerBioModel
+@{
+    ViewData["Title"] = "Issuer Biometric Registration";
+}
+<div style="text-align: center;">
+    <h1>Orange Interstellar Corp Events</h1>
+    <div id="text" style="">
+        <p class="small-text">
+            Click Capture to take a selfie and click Next when you are happy with it. Or click Capture to again to yake a new selfie.
+        </p>
+    </div>
+    <div id="qrcode" style="text-align: center">
+
+        <video id="myVidPlayer" controls muted autoplay hidden></video>
+
+        <button class="button" onclick="snapshot()">Capture</button>
+        <button class="button" onclick="base64()">Enroll</button>
+
+        <div class="test" id="test1">
+            <div class="mycanvas">
+                <canvas></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var canvas = document.querySelector("canvas");
+        var context = canvas.getContext("2d");
+        const video = document.querySelector('#myVidPlayer');
+        var id = "";
+        var session = null;
+
+        //w-width,h-height
+        var w, h;
+        canvas.style.display = "none";
+
+
+        function base64() {
+
+            //const dataURL = canvas.toDataURL();
+            //console.log(dataURL);
+
+            canvas.toBlob(function (blob) {
+                const formData = new FormData();
+                formData.append("image", blob, "file.png");
+                formData.append("session", session);
+                const request = new XMLHttpRequest();
+                request.open("POST", "/api/issuer/submit-image");
+                request.send(formData);
+                request.onreadystatechange = function () {
+                    if (request.readyState == XMLHttpRequest.DONE) {
+                        response = JSON.parse(request.responseText);
+                        window.location.href = "issuerVC?id=" + response.id;
+                    }
+                }
+            });
+
+        }
+
+
+        //new
+        function snapshot() {
+            var index = location.search.indexOf("=");
+            session = location.search.substr(++index, location.search.length-1);
+
+            context.fillRect(0, 0, w, h);
+            context.drawImage(video, 0, 0, w, h);
+            canvas.style.display = "block";
+        }
+
+
+
+        window.navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(stream => {
+                video.srcObject = stream;
+                video.onloadedmetadata = (e) => {
+                    video.play();
+
+
+                    w = 448;
+                    h = 336;
+
+                    canvas.width = w;
+                    canvas.height = h;
+                };
+            })
+            .catch(error => {
+                alert('Please allow the camera');
+            });
+    </script>
+</div>
+

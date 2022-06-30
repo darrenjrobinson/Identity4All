@@ -53,7 +53,21 @@ Update VerifierController.cs
 - // Make the call to Verify API
     - "https://YOURREGION.api.cognitive.microsoft.com/face/v1.0/verify"
 
-
+Update issuance_request_config.json
+- "url": "https://YOURENDPOINT.ngrok.io/api/issuer/issuanceCallback",
+    - Update with your endpoint
+- "authority": "did:web:yourissuer.azurewebsites.net",
+    - Update with your issuer endpoint 
+	
+Update presentation_request_config.json
+- "url": "https://YOURENDPOINT.ngrok.io/api/issuer/issuanceCallback",
+    - Update with your endpoint
+- "authority": "did:web:yourissuer.azurewebsites.net",
+    - Update with your issuer endpoint 
+- "acceptedIssuers": [ "did:web:yourissuer.azurewebsites.net" ]
+    - Update with your issuer(s)
+	
+	
 ## More Info
 For more information see the [hackathon detailed submission here](https://devpost.com/software/orange-interstellar-corporation-event-webapp)
 

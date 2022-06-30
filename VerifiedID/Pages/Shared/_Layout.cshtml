@@ -1,0 +1,49 @@
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved.
+     Licensed under the MIT License. -->
+<!DOCTYPE html>
+
+<style>
+    .test {
+        width: 448px;
+        height: 336px;
+        display: inline-block;
+        margin: 5px;
+        border-radius: 20px;
+        border: solid 10px transparent;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #test1 {
+        background: linear-gradient(black, black), radial-gradient(circle at left top, darkred 30px, transparent 150px), radial-gradient(circle at right bottom, indigo 30px, transparent 150px), royalblue;
+        background-clip: content-box, border-box, border-box, border-box;
+        background-origin: content-box, border-box, border-box, border-box;
+    }
+</style>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Orange Interstellar Corp</title>
+    <meta name="description" content="Orange Interstellar Corp">
+    <meta name="author" content="Microsoft">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.png">
+</head>
+
+<body style="background-color:black; background-image: url('https://source.unsplash.com/7YiZKj9A3DM/2268x1512'); padding-right: 3rem; background-repeat: no-repeat; background-position: center; color: antiquewhite;">
+    <div id="wrap">
+
+        <main role="main" class="starter-template">
+            @RenderBody()
+        </main>
+
+        <footer>
+            <p class="text-center text-gray tiny-text margin-top-75">
+                </BR>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+﻿@page
+@model AspNetCoreVerifiableCredentials.Pages.VerifierModel
+@{
+    ViewData["Title"] = "Verifier";
+}
+<div style="text-align: center;">
+    <h1>Orange Interstellar Corp Events</h1>
+    <div id="qrText" style="">
+        <p class="small-text">
+            <img src="authenticator-icon.png" alt="Authenticator icon" class="icon-small"><br>
+            Scan with Microsoft Authenticator
+        </p>
+    </div>
+    <a id="deeplink" style="display: none;margin-top: 10px;">Tap to open Authenticator on mobile</a>
+    <div id="qrcode" style="text-align: center"></div>
+    <div id="pinCodeText" style="display: none"></div>
+
+    <div id="message-wrapper" class="margin-bottom-75 margin-top-75" style="display: none">
+        <i class="fas fa-user-check green icon-text-large margin-bottom-25"></i>
+        <div id="message"></div>
+    </div>
+
+    <script src="qrcode.min.js"></script>
+    <script>
+        var qrcode = new QRCode("qrcode", { width: 300, height: 300 });
+        var respPresentationReq = null;
+        var id = "";
+        var index = location.search.indexOf("=");
+        var id = location.search.substr(++index, location.search.length - 1);
+
+        window.addEventListener('load', function () {
+            fetch('/api/verifier/presentation-request?id=' + id)
+                .then(function (response) {
+                    response.text()
+                        .catch(error => document.getElementById("message").innerHTML = error)
+                        .then(function (message) {
+                            respPresentationReq = JSON.parse(message);
+                            if (/Android/i.test(navigator.userAgent)) {
+                                console.log(`Android device! Using deep link (${respPresentationReq.url}).`);
+                                window.location.href = respPresentationReq.url; setTimeout(function () {
+                                    window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator";
+                                }, 2000);
+                            } else if (/iPhone/i.test(navigator.userAgent)) {
+                                console.log(`iOS device! Using deep link (${respPresentationReq.url}).`);
+                                window.location.replace(respPresentationReq.url);
+                            } else {
+                                console.log(`Not Android or IOS. Generating QR code encoded with ${message}`);
+                                qrcode.makeCode(respPresentationReq.url);
+                                document.getElementById('qrText').style.display = "block";
+                            }
+                        }).catch(error => { console.log(error.message); })
+                }).catch(error => { console.log(error.message); })
+        })
+    </script>
+</div>
