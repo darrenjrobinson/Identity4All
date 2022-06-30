@@ -12,6 +12,28 @@ Numerous changes were made to the sample, additional pages created, authenticati
 
 It's not perfect or production ready, but an example of what you can do over a weekend and a couple of late nights. 
 
+#### Config Updates
+Update authconfig.js 
+- // 'Application (client) ID' of app registration in Azure portal - this value is a GUID
+    - Update with your clientId: "yourClientID",
+- // Full directory URL, in the form of https://login.microsoftonline.com/<tenant>    
+    - Update with your TenantID authority: "https://login.microsoftonline.com/YOURTENANTID",
+- redirectUri: "https://YOURWEBAPP.azurewebsites.net/event.html",
+    - Update with your published WebApp URL
+	
+Update ui.js 
+-  var enrolVerifiedID = popupWindow("https://YOURISSUER.azurewebsites.net/IssuerBio?session=" + session, "VerifiedID Enrolment", 640, 600);
+    - Update for your Issuer URL *NOTE: it exists in many places
+
+Update apps.json 
+- "url": "https://YOURWEBAPP.azurewebsites.net/",
+    - Update for your WebApp URL
+	
+Update Configure.ps1 
+-  Spa @{RedirectUris = "https://YOURWEBAPP.azurewebsites.net/" } `
+    - Update for your WebApp URL
+	
+	
 ### Azure Function App
 The FunctionApp Folder contains the Azure Function App that is called by the External Identities User Flow API Connector for Sign-Up. 
 
